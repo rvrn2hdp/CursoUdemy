@@ -17,5 +17,5 @@ class Element(models.Model):
     url_clean = models.CharField(max_length=255)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    types = models.ForeignKey(types, on_delete=models.CASCADE)
+    types = models.ForeignKey(Types, on_delete=models.CASCADE)
 
