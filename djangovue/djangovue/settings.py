@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'listelement',
     'rest_framework',
     'corsheaders',
+    'comment',
 ]
 
 MIDDLEWARE = [
