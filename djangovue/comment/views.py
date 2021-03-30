@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Comment
-from .forms import CommentForm
+from .forms import CommentForm, ContactForm
 
 # Create your views here.
 
@@ -42,3 +42,11 @@ def update(request, pk):
 
     return render(request, 'update.html', {'form': form, 'com': com})
 
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+    else:
+        form = ContactForm()
+    
+    return render(request, 'contact.html', {'form': form})
