@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Comment
+from .models import *
 from .forms import CommentForm, ContactForm
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
@@ -36,7 +37,7 @@ def update(request, pk):
         # si el formulario es valido
         if form.is_valid():
             form.save()
-            return redirect('update', pk=pk)
+            return redirect('comment:update', pk=pk)
     else:
         form = CommentForm(instance=com)
 
@@ -45,8 +46,28 @@ def update(request, pk):
 
 def contact(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            
+            contact = Contact()
+            contact.name = form.cleaned_data['name']
+            contact.surname = form.cleaned_data['surname']
+            contact.phone = form.cleaned_data['phone']
+            contact.email = form.cleaned_data['email']
+            contact.date_birth = form.cleaned_data['date_birth']
+            if 'document' in request.FILES:
+                contact.document = request.FILES['document']
+            contact.save()
+            return redirect('comment:contact')
+            print('Valido: '+ form.cleaned_data['sex'])
+        else:
+            print('Invalido')
+            
     else:
         form = ContactForm()
-    
+
+    #if (form.errors):
+    #    raise ValidationError(form.errors)
+
     return render(request, 'contact.html', {'form': form})

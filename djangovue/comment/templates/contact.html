@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,30 @@
     <title>Contact</title>
 
     {% load static %}
+    {% load bootstrap %}
 
     <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
- 
+
 </head>
+
 <body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-    <input type="submit" value="Enviar">
-    </form>
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% if form.errors %}
+            {% for field in form %}
+            {% for errors in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ field.name }}:</strong> {{ error }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
+
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
 </body>
+
 </html>
